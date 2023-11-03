@@ -1,6 +1,6 @@
 #!/bin/bash -ae
 
-check() {
+unformatted() {
   set -x
   make format
   test -z "$(git status --porcelain)"
@@ -9,4 +9,4 @@ check() {
 source /tmp/conda/etc/profile.d/conda.sh
 conda activate
 set -x
-CONDEV_SHELL_CMD=check condev-shell
+CONDEV_SHELL_CMD=unformatted condev-shell
