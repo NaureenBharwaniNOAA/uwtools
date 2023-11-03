@@ -1,14 +1,12 @@
-#!/bin/bash -eux
+#!/bin/bash -ae
 
-unformatted() { 
-    set -x
-    make format
-    test -z "$(git status --porcelain)"
+check() {
+  set -x
+  make format
+  test -z "$(git status --porcelain)"
 }
 
-export -f unformatted
-
-source conda/etc/profile.d/conda.sh
+source /tmp/conda/etc/profile.d/conda.sh
 conda activate
-
-CONDEV_SHELL_CMD=unformatted condev-shell
+set -x
+CONDEV_SHELL_CMD=check condev-shell
