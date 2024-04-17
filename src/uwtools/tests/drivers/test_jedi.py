@@ -134,8 +134,8 @@ def test_JEDI_provisioned_run_directory(driverobj):
         validate_only=D,
     ) as mocks:
         driverobj.provisioned_run_directory()
-    for m in [mocks[x] for x in mocks]:
-        m.assert_called_once_with()
+    for m in mocks:
+        mocks[m].assert_called_once_with()
 
 
 def test_JEDI_run_batch(driverobj):
