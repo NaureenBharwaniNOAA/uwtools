@@ -161,12 +161,11 @@ def test_JEDI_runscript(driverobj):
 
 
 def test_JEDI_validate_only(caplog, driverobj):
-    executable = driverobj._driver_config["execution"]["executable"]
 
     @external
     def file(path: Path):
         yield "Mocked file task for %s" % path
-        yield asset(executable, lambda: True)
+        yield asset(path, lambda: True)
 
     logging.getLogger().setLevel(logging.INFO)
     with patch.object(jedi, "file", file):
@@ -178,7 +177,8 @@ def test_JEDI_validate_only(caplog, driverobj):
             cmds = [
                 "module load some-module",
                 "module load jedi-module",
-                "time %s --validate-only %s 2>&1" % (executable, cfgfile),
+                "time %s --validate-only %s 2>&1"
+                % (driverobj._driver_config["execution"]["executable"], cfgfile),
             ]
             run.assert_called_once_with("20240201 18Z jedi validate_only", " && ".join(cmds))
     assert regex_logged(caplog, "Config is valid")
